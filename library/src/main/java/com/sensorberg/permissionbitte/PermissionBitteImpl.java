@@ -8,10 +8,17 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PermissionBitteImpl extends Fragment {
+
+    private WeakReference<YesYouCan> weakYesYouCan;
+
+    public void setYesYouCan(YesYouCan yesYouCan) {
+        this.weakYesYouCan = yesYouCan == null ? null : new WeakReference<>(yesYouCan);
+    }
 
     public PermissionBitteImpl() {
         setRetainInstance(true);
@@ -28,13 +35,23 @@ public class PermissionBitteImpl extends Fragment {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 23) {
+        if (requestCode == 23 && permissions.length > 0) {
             for (int result : grantResults) {
                 if (result == PackageManager.PERMISSION_DENIED) {
+
+                    YesYouCan yesYouCan = weakYesYouCan.get();
+                    if (yesYouCan != null) {
+                        yesYouCan.noYouCant();
+                    }
+
                     return;
                 }
             }
-            getFragmentManager().beginTransaction().remove(this).commitNowAllowingStateLoss();
+            YesYouCan yesYouCan = weakYesYouCan.get();
+            if (yesYouCan != null) {
+                yesYouCan.yesYouCan();
+            }
+            getFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
         }
     }
 
