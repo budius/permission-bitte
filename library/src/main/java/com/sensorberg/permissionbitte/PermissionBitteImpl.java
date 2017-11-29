@@ -14,6 +14,7 @@ import java.util.List;
 
 public class PermissionBitteImpl extends Fragment {
 
+    private static final int BITTE_LET_ME_PERMISSION = 23;
     private WeakReference<YesYouCan> weakYesYouCan;
 
     public void setYesYouCan(YesYouCan yesYouCan) {
@@ -27,29 +28,33 @@ public class PermissionBitteImpl extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        String[] need = neededPermissions(getActivity());
-        if (need.length > 0) {
-            requestPermissions(need, 23);
+        String[] needed = neededPermissions(getActivity());
+        if (needed.length > 0) {
+            requestPermissions(needed, BITTE_LET_ME_PERMISSION);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 23 && permissions.length > 0) {
-            for (int result : grantResults) {
-                if (result == PackageManager.PERMISSION_DENIED) {
+        if (requestCode == BITTE_LET_ME_PERMISSION && permissions.length > 0) {
 
-                    YesYouCan yesYouCan = weakYesYouCan.get();
-                    if (yesYouCan != null) {
-                        yesYouCan.noYouCant();
-                    }
-
-                    return;
-                }
-            }
             YesYouCan yesYouCan = weakYesYouCan.get();
+
             if (yesYouCan != null) {
-                yesYouCan.yesYouCan();
+                boolean resultGiven = false;
+                for (int i = 0; i < permissions.length; i++) {
+                    if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                        if (shouldShowRequestPermissionRationale(permissions[i])) {
+                            yesYouCan.askNicer();
+                        } else {
+                            yesYouCan.noYouCant();
+                        }
+                        resultGiven = true;
+                    }
+                }
+                if (!resultGiven) {
+                    yesYouCan.yesYouCan();
+                }
             }
             getFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
         }

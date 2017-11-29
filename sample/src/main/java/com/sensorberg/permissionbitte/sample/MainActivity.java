@@ -1,7 +1,9 @@
 package com.sensorberg.permissionbitte.sample;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -42,11 +44,29 @@ public class MainActivity extends AppCompatActivity implements YesYouCan {
 
     @Override
     public void noYouCant() {
-        Toast.makeText(this, "NNOOOOOoooooo...... (Vader, a long time ago)", Toast.LENGTH_SHORT).show();
-        // This call is optional
-        // PermissionBitte will keep asking for permission forever,
-        // so this is how it's possible to cancel it
-        PermissionBitte.cancel(this);
-        findViewById(R.id.button).setVisibility(View.VISIBLE);
+        Toast.makeText(this, "NNOOOOOoooooo......", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+
+    @Override
+    public void askNicer() {
+        new AlertDialog.Builder(this)
+                .setTitle("Bitte")
+                .setMessage("I promise not to be a creep")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PermissionBitte.ask(MainActivity.this, MainActivity.this);
+                    }
+                })
+                .setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .setCancelable(false)
+                .show();
     }
 }

@@ -15,7 +15,6 @@ public class PermissionBitte {
                     .findFragmentByTag(TAG);
             if (bitte != null) {
                 bitte.setYesYouCan(yesYouCan);
-                return false;
             }
             return PermissionBitteImpl.neededPermissions(activity).length > 0;
         } else {
