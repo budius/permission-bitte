@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import java.lang.ref.WeakReference;
@@ -17,7 +18,7 @@ public class PermissionBitteImpl extends Fragment {
     private static final int BITTE_LET_ME_PERMISSION = 23;
     private WeakReference<YesYouCan> weakYesYouCan;
 
-    public void setYesYouCan(YesYouCan yesYouCan) {
+    public void setYesYouCan(@Nullable YesYouCan yesYouCan) {
         this.weakYesYouCan = yesYouCan == null ? null : new WeakReference<>(yesYouCan);
     }
 
@@ -38,10 +39,10 @@ public class PermissionBitteImpl extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == BITTE_LET_ME_PERMISSION && permissions.length > 0) {
 
-            YesYouCan yesYouCan = weakYesYouCan.get();
+            YesYouCan yesYouCan = weakYesYouCan == null ? null : weakYesYouCan.get();
 
             if (yesYouCan != null) {
-                boolean resultGiven = false;
+                boolean denied = false;
                 for (int i = 0; i < permissions.length; i++) {
                     if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                         if (shouldShowRequestPermissionRationale(permissions[i])) {
@@ -49,10 +50,10 @@ public class PermissionBitteImpl extends Fragment {
                         } else {
                             yesYouCan.noYouCant();
                         }
-                        resultGiven = true;
+                        denied = true;
                     }
                 }
-                if (!resultGiven) {
+                if (!denied) {
                     yesYouCan.yesYouCan();
                 }
             }

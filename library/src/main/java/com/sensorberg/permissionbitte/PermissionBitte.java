@@ -1,6 +1,7 @@
 package com.sensorberg.permissionbitte;
 
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
@@ -8,7 +9,7 @@ public class PermissionBitte {
 
     private static final String TAG = "PERMISSION_BITTE";
 
-    public static boolean shouldAsk(FragmentActivity activity, YesYouCan yesYouCan) {
+    public static boolean shouldAsk(FragmentActivity activity, @Nullable YesYouCan yesYouCan) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PermissionBitteImpl bitte = (PermissionBitteImpl) activity
                     .getSupportFragmentManager()
@@ -22,7 +23,7 @@ public class PermissionBitte {
         }
     }
 
-    public static void ask(FragmentActivity activity, YesYouCan yesYouCan) {
+    public static void ask(FragmentActivity activity, @Nullable YesYouCan yesYouCan) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             PermissionBitteImpl bitte = (PermissionBitteImpl) activity
                     .getSupportFragmentManager()
