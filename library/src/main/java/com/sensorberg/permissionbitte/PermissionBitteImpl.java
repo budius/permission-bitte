@@ -13,71 +13,78 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DO NOT USE THIS FRAGMENT DIRECTLY!
+ * It's only here because fragments have to be public
+ */
 public class PermissionBitteImpl extends Fragment {
 
-    private static final int BITTE_LET_ME_PERMISSION = 23;
-    private WeakReference<YesYouCan> weakYesYouCan;
+	private static final int BITTE_LET_ME_PERMISSION = 23;
+	private WeakReference<BitteBitte> weakYesYouCan;
 
-    public void setYesYouCan(@Nullable YesYouCan yesYouCan) {
-        this.weakYesYouCan = yesYouCan == null ? null : new WeakReference<>(yesYouCan);
-    }
+	public void setYesYouCan(@Nullable BitteBitte bitteBitte) {
+		this.weakYesYouCan = bitteBitte == null ? null : new WeakReference<>(bitteBitte);
+	}
 
-    public PermissionBitteImpl() {
-        setRetainInstance(true);
-    }
+	public PermissionBitteImpl() {
+		setRetainInstance(true);
+	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        String[] needed = neededPermissions(getActivity());
-        if (needed.length > 0) {
-            requestPermissions(needed, BITTE_LET_ME_PERMISSION);
-        }
-    }
+	@Override public void onResume() {
+		super.onResume();
+		String[] needed = neededPermissions(getActivity());
+		if (needed.length > 0) {
+			requestPermissions(needed, BITTE_LET_ME_PERMISSION);
+		} else {
+			// this shouldn't happen, but just to be sure
+			getFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
+		}
+	}
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == BITTE_LET_ME_PERMISSION && permissions.length > 0) {
+	@Override public void onRequestPermissionsResult(int requestCode,
+													 @NonNull String[] permissions,
+													 @NonNull int[] grantResults) {
+		if (requestCode == BITTE_LET_ME_PERMISSION && permissions.length > 0) {
 
-            YesYouCan yesYouCan = weakYesYouCan == null ? null : weakYesYouCan.get();
+			BitteBitte bitteBitte = weakYesYouCan == null ? null : weakYesYouCan.get();
 
-            if (yesYouCan != null) {
-                boolean denied = false;
-                for (int i = 0; i < permissions.length; i++) {
-                    if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
-                        if (shouldShowRequestPermissionRationale(permissions[i])) {
-                            yesYouCan.askNicer();
-                        } else {
-                            yesYouCan.noYouCant();
-                        }
-                        denied = true;
-                    }
-                }
-                if (!denied) {
-                    yesYouCan.yesYouCan();
-                }
-            }
-            getFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
-        }
-    }
+			if (bitteBitte != null) {
+				boolean denied = false;
+				for (int i = 0; i < permissions.length; i++) {
+					if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+						if (shouldShowRequestPermissionRationale(permissions[i])) {
+							bitteBitte.askNicer();
+						} else {
+							bitteBitte.noYouCant();
+						}
+						denied = true;
+					}
+				}
+				if (!denied) {
+					bitteBitte.yesYouCan();
+				}
+			}
+			getFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
+		}
+	}
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    static String[] neededPermissions(Context context) {
-        PackageInfo info = null;
-        try {
-            info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
-        } catch (PackageManager.NameNotFoundException e) { /* */ }
-        List<String> needed = new ArrayList<>();
-        if (info != null &&
-                info.requestedPermissions != null &&
-                info.requestedPermissionsFlags != null) {
-            for (int i = 0; i < info.requestedPermissions.length; i++) {
-                int flags = info.requestedPermissionsFlags[i];
-                if ((flags & PackageInfo.REQUESTED_PERMISSION_GRANTED) == 0) {
-                    needed.add(info.requestedPermissions[i]);
-                }
-            }
-        }
-        return needed.toArray(new String[needed.size()]);
-    }
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN) @NonNull
+	static String[] neededPermissions(Context context) {
+		PackageInfo info = null;
+		try {
+			info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
+		} catch (PackageManager.NameNotFoundException e) { /* */ }
+		List<String> needed = new ArrayList<>();
+		if (info != null &&
+			info.requestedPermissions != null &&
+			info.requestedPermissionsFlags != null) {
+			for (int i = 0; i < info.requestedPermissions.length; i++) {
+				int flags = info.requestedPermissionsFlags[i];
+				if ((flags & PackageInfo.REQUESTED_PERMISSION_GRANTED) == 0) {
+					needed.add(info.requestedPermissions[i]);
+				}
+			}
+		}
+		return needed.toArray(new String[needed.size()]);
+	}
 }
