@@ -1,6 +1,8 @@
 Permission Bitte
 ===================
 
+[ ![Download](https://api.bintray.com/packages/sensorberg/maven/permission-bitte/images/download.svg) ](https://bintray.com/sensorberg/maven/permission-bitte/_latestVersion)
+
 # Easiest way to ask for user permission in Android
 
 - Absurdly minimal API. There're only 3 static methods and one interface with callbacks.
@@ -25,8 +27,11 @@ interface BitteBitte
 ## Gradle
 
 ```Groovy
-jcenter()
+repositories {
+  jcenter()
+}
 
-implementation 'com.sensorberg.libs:permission-bitte:<latest-version>'
-
+dependencies {
+  implementation 'com.sensorberg.libs:permission-bitte:<latest-version>'
+}
 ```
