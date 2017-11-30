@@ -20,7 +20,7 @@ PermissionBitte.goToSettings(FragmentActivity) // just a helper
 ```Java
 interface BitteBitte
   void yesYouCan(); // all permissions accepted
-  void noYouCant(); // fully declined (Means the user marked "Never ask again")
+  void noYouCant(); // the user marked "Never ask again"
   void askNicer(); // show rationale
 ```
 
