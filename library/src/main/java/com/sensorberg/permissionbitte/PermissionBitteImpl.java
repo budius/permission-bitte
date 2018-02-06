@@ -70,9 +70,10 @@ public class PermissionBitteImpl extends Fragment {
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN) @NonNull
 	static String[] neededPermissions(Context context) {
+		PackageManager pm = context.getPackageManager();
 		PackageInfo info = null;
 		try {
-			info = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
+			info = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_PERMISSIONS);
 		} catch (PackageManager.NameNotFoundException e) { /* */ }
 		List<String> needed = new ArrayList<>();
 		if (info != null &&
@@ -80,7 +81,11 @@ public class PermissionBitteImpl extends Fragment {
 			info.requestedPermissionsFlags != null) {
 			for (int i = 0; i < info.requestedPermissions.length; i++) {
 				int flags = info.requestedPermissionsFlags[i];
-				if ((flags & PackageInfo.REQUESTED_PERMISSION_GRANTED) == 0) {
+				String group = null;
+				try {
+					group = pm.getPermissionInfo(info.requestedPermissions[i], 0).group;
+				} catch (PackageManager.NameNotFoundException e) { /* */ }
+				if (((flags & PackageInfo.REQUESTED_PERMISSION_GRANTED) == 0) && group != null) {
 					needed.add(info.requestedPermissions[i]);
 				}
 			}
