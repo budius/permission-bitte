@@ -1,0 +1,11 @@
+apply plugin: "com.vanniktech.maven.publish"
+mavenPublish {
+    targets {
+        uploadArchives {
+            signing = false
+            releaseRepositoryUrl = findProperty("BINTRAY_URL", null)
+            repositoryUsername = findProperty("BINTRAY_USERNAME", null)
+            repositoryPassword = findProperty("BINTRAY_PASSWORD", null)
+        }
+    }
+}

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply from: '../upload.gradle'
 
 android {
     compileSdkVersion 28
@@ -26,5 +27,3 @@ android {
 dependencies {
     implementation 'androidx.fragment:fragment:1.0.0'
 }
-
-apply from: 'https://raw.githubusercontent.com/sensorberg-dev/gradle-bintray-push/master/gradle-bintray-push.gradle'
