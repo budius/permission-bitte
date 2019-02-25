@@ -1,16 +1,16 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
-        buildToolsVersion "26.0.2"
+        targetSdkVersion 28
+        buildToolsVersion "28.0.3"
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -24,7 +24,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support:support-fragment:26.1.0'
+    implementation 'androidx.fragment:fragment:1.0.0'
 }
 
 apply from: 'https://raw.githubusercontent.com/sensorberg-dev/gradle-bintray-push/master/gradle-bintray-push.gradle'
