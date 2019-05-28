@@ -22,7 +22,8 @@ public class BasicActivity extends AppCompatActivity implements BitteBitte {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		if (PermissionBitte.shouldAsk(this, this)) {
+		PermissionBitte.registerCallback(this, this);
+		if (PermissionBitte.shouldAsk(this)) {
 			findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {

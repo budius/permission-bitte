@@ -26,8 +26,8 @@ public class ArchitectureComponentsActivity extends AppCompatActivity implements
 		findViewById(R.id.button).setOnClickListener(this);
 		vm = ViewModelProviders.of(this).get(ArchitectureComponentsViewModel.class);
 		vm.getState().observe(this, this);
-		vm.shouldAskPermission(PermissionBitte.shouldAsk(this, vm));
-
+		PermissionBitte.registerCallback(this, vm);
+		vm.shouldAskPermission(PermissionBitte.shouldAsk(this));
 	}
 
 	@Override public void onClick(View v) {

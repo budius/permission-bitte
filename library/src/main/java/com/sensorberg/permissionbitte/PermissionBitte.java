@@ -17,29 +17,29 @@ public class PermissionBitte {
   private static final String TAG = "PERMISSION_BITTE";
 
   /**
-   * Only ask for something if you really need it.
+   * Register {@link BitteBitte} listener.
+   * Always call this during Activity.onCreate()
    *
    * @param activity   "this"
    * @param bitteBitte Callback, on rotation re-attaches the callback to the implementation
-   * @return true, if you should ask for permission, false if you're good to go.
-   *
-   * @deprecated use {@link #shouldAsk(Context)} and then {@link #ask(FragmentActivity, BitteBitte)}
    */
-  @Deprecated
-  public static boolean shouldAsk(FragmentActivity activity, @Nullable BitteBitte bitteBitte) {
+  public static void registerCallback(FragmentActivity activity, @Nullable BitteBitte bitteBitte) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       PermissionBitteImpl fragment = (PermissionBitteImpl) activity
               .getSupportFragmentManager()
               .findFragmentByTag(TAG);
       if (fragment != null) {
-        fragment.setYesYouCan(bitteBitte);
+        fragment.setBitteBitte(bitteBitte);
       }
-      return PermissionBitteImpl.neededPermissions(activity).length > 0;
-    } else {
-      return false;
     }
   }
 
+  /**
+   * Check if you need to ask for permission.
+   *
+   * @param context a Context
+   * @return true when you should ask for permission, false otherwise
+   */
   public static boolean shouldAsk(Context context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
       return PermissionBitteImpl.neededPermissions(context).length > 0;
@@ -57,24 +57,23 @@ public class PermissionBitte {
    * @param bitteBitte Callback, so you know when it's all good.
    */
   public static void ask(FragmentActivity activity, @Nullable BitteBitte bitteBitte) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-      if (PermissionBitteImpl.neededPermissions(activity).length > 0) {
-        PermissionBitteImpl bitte = (PermissionBitteImpl) activity
-                .getSupportFragmentManager()
-                .findFragmentByTag(TAG);
-        if (bitte == null) {
-          bitte = new PermissionBitteImpl();
-          bitte.setYesYouCan(bitteBitte);
-          activity.getSupportFragmentManager()
-                  .beginTransaction()
-                  .add(bitte, TAG)
-                  .commitNowAllowingStateLoss();
-        } else {
-          bitte.setYesYouCan(bitteBitte);
-        }
-        return;
+    if (shouldAsk(activity)) {
+      PermissionBitteImpl bitte = (PermissionBitteImpl) activity
+              .getSupportFragmentManager()
+              .findFragmentByTag(TAG);
+      if (bitte == null) {
+        bitte = new PermissionBitteImpl();
+        bitte.setBitteBitte(bitteBitte);
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .add(bitte, TAG)
+                .commitNowAllowingStateLoss();
+      } else {
+        bitte.setBitteBitte(bitteBitte);
       }
+      return;
     }
+
     if (bitteBitte != null) {
       bitteBitte.yesYouCan();
     }
