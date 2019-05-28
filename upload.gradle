@@ -1,3 +1,7 @@
+/*
+ * Because bintray is "interesting" that's the URL scheme. Good Luck!
+ * https://bintray.com/api/v1/maven/{NEXUS_USERNAME}/maven/{POM_ARTIFACT_ID}/;publish=1
+ */
 apply plugin: "com.vanniktech.maven.publish"
 mavenPublish {
     targets {
