@@ -20,10 +20,10 @@ import java.util.List;
 public class PermissionBitteImpl extends Fragment {
 
 	private static final int BITTE_LET_ME_PERMISSION = 23;
-	private WeakReference<BitteBitte> weakYesYouCan;
+	private WeakReference<BitteBitte> weakBitteBitte;
 
-	public void setYesYouCan(@Nullable BitteBitte bitteBitte) {
-		this.weakYesYouCan = bitteBitte == null ? null : new WeakReference<>(bitteBitte);
+	public void setBitteBitte(@Nullable BitteBitte bitteBitte) {
+		this.weakBitteBitte = bitteBitte == null ? null : new WeakReference<>(bitteBitte);
 	}
 
 	public PermissionBitteImpl() {
@@ -46,7 +46,7 @@ public class PermissionBitteImpl extends Fragment {
 													 @NonNull int[] grantResults) {
 		if (requestCode == BITTE_LET_ME_PERMISSION && permissions.length > 0) {
 
-			BitteBitte bitteBitte = weakYesYouCan == null ? null : weakYesYouCan.get();
+			BitteBitte bitteBitte = weakBitteBitte == null ? null : weakBitteBitte.get();
 
 			if (bitteBitte != null) {
 				boolean denied = false;
