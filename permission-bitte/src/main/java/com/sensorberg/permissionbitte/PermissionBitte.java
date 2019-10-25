@@ -57,7 +57,7 @@ public class PermissionBitte {
       activity.getSupportFragmentManager()
               .beginTransaction()
               .add(permissionBitteFragment, TAG)
-              .commitNowAllowingStateLoss();
+              .commitAllowingStateLoss();
     }
 
     return permissionBitteFragment;
