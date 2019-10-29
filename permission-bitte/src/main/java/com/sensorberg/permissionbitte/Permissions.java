@@ -113,4 +113,20 @@ public class Permissions {
   public int hashCode() {
     return Arrays.hashCode(new Object[]{map});
   }
+
+  @NonNull
+  @Override
+  public String toString() {
+    StringBuilder stringBuilder = new StringBuilder().append("Permissions{\n");
+
+    for (String key : map.keySet()) {
+      stringBuilder.append("  ")
+              .append(key)
+              .append(" : ")
+              .append(map.get(key))
+              .append("\n");
+    }
+
+    return stringBuilder.append('}').toString();
+  }
 }
