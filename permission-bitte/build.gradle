@@ -2,17 +2,15 @@ apply plugin: 'com.android.library'
 apply from: '../upload.gradle'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion android_compileSdkVersion
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 29
-        buildToolsVersion "29.0.1"
+        minSdkVersion android_minSdkVersion
+        targetSdkVersion android_targetSdkVersion
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -21,16 +19,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
-    implementation 'androidx.fragment:fragment:1.1.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation Libs.fragment
+    implementation Libs.lifecycle_extensions
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation "io.mockk:mockk:1.9.3"
-    testImplementation "org.assertj:assertj-core:3.14.0"
+    testImplementation Libs.junit
+    testImplementation Libs.mockk
+    testImplementation Libs.assertj_core
 }
 repositories {
     mavenCentral()
