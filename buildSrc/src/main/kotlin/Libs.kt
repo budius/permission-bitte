@@ -7,21 +7,21 @@ import kotlin.String
  *   `$ ./gradlew buildSrcVersions`
  */
 object Libs {
-  const val de_fayard_buildsrcversions_gradle_plugin: String =
-      "de.fayard.buildSrcVersions:de.fayard.buildSrcVersions.gradle.plugin:" +
-      Versions.de_fayard_buildsrcversions_gradle_plugin
+  /**
+   * https://developer.android.com/jetpack/androidx
+   */
+  const val appcompat: String = "androidx.appcompat:appcompat:" + Versions.appcompat
 
   /**
-   * https://developer.android.com/studio
+   * http://tools.android.com
    */
-  const val com_android_tools_build_gradle: String = "com.android.tools.build:gradle:" +
-      Versions.com_android_tools_build_gradle
+  const val constraintlayout: String = "androidx.constraintlayout:constraintlayout:" +
+      Versions.constraintlayout
 
   /**
-   * http://github.com/vanniktech/gradle-maven-publish-plugin/
+   * https://developer.android.com/jetpack/androidx
    */
-  const val gradle_maven_publish_plugin: String = "com.vanniktech:gradle-maven-publish-plugin:" +
-      Versions.gradle_maven_publish_plugin
+  const val fragment: String = "androidx.fragment:fragment:" + Versions.fragment
 
   /**
    * https://developer.android.com/topic/libraries/architecture/index.html
@@ -42,15 +42,10 @@ object Libs {
       Versions.androidx_lifecycle
 
   /**
-   * http://tools.android.com
+   * https://developer.android.com/studio
    */
-  const val constraintlayout: String = "androidx.constraintlayout:constraintlayout:" +
-      Versions.constraintlayout
-
-  /**
-   * http://assertj.org
-   */
-  const val assertj_core: String = "org.assertj:assertj-core:" + Versions.assertj_core
+  const val com_android_tools_build_gradle: String = "com.android.tools.build:gradle:" +
+      Versions.com_android_tools_build_gradle
 
   /**
    * https://developer.android.com/studio
@@ -58,14 +53,14 @@ object Libs {
   const val lint_gradle: String = "com.android.tools.lint:lint-gradle:" + Versions.lint_gradle
 
   /**
-   * https://developer.android.com/jetpack/androidx
+   * http://github.com/vanniktech/gradle-maven-publish-plugin/
    */
-  const val appcompat: String = "androidx.appcompat:appcompat:" + Versions.appcompat
+  const val gradle_maven_publish_plugin: String = "com.vanniktech:gradle-maven-publish-plugin:" +
+      Versions.gradle_maven_publish_plugin
 
-  /**
-   * https://developer.android.com/jetpack/androidx
-   */
-  const val fragment: String = "androidx.fragment:fragment:" + Versions.fragment
+  const val de_fayard_buildsrcversions_gradle_plugin: String =
+      "de.fayard.buildSrcVersions:de.fayard.buildSrcVersions.gradle.plugin:" +
+      Versions.de_fayard_buildsrcversions_gradle_plugin
 
   /**
    * http://mockk.io
@@ -76,4 +71,9 @@ object Libs {
    * http://junit.org
    */
   const val junit: String = "junit:junit:" + Versions.junit
+
+  /**
+   * http://assertj.org
+   */
+  const val assertj_core: String = "org.assertj:assertj-core:" + Versions.assertj_core
 }
