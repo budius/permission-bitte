@@ -3,9 +3,9 @@ mavenPublish {
     targets {
         uploadArchives {
             signing = false
-            releaseRepositoryUrl = findProperty("PERMISSION_BITTE_URL", null)
-            repositoryUsername = findProperty("PERMISSION_BITTE_USERNAME", null)
-            repositoryPassword = findProperty("PERMISSION_BITTE_PASSWORD", null)
+            releaseRepositoryUrl = "https://bintray.com/api/v1/maven/sensorberg/maven/permission-bitte/;publish=1"
+            repositoryUsername = findProperty("MAVEN_JCENTER_USERNAME", null)
+            repositoryPassword = findProperty("MAVEN_JCENTER_PASSWORD", null)
         }
     }
 }
