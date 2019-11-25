@@ -23,7 +23,7 @@ public enum PermissionResult {
   /**
    * Permission has been permanently denied by the user.
    * The only way to acquire this permission is to instruct the user to go to the settings and do it manually.
-   * See {@link PermissionBitte#goToSettings(Activity)}
+   * See {@link PermissionBitte#goToSettings(FragmentActivity)}
    */
   DENIED,
 
