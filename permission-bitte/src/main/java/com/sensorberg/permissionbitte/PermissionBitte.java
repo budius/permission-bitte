@@ -40,7 +40,7 @@ public class PermissionBitte {
    *
    * @param activity an Activity
    */
-  public static void goToSettings(Activity activity) {
+  public static void goToSettings(FragmentActivity activity) {
     activity.startActivity(new Intent(
             Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
             Uri.fromParts("package", activity.getPackageName(), null)));
