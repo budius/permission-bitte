@@ -1,0 +1,19 @@
+name: GitHub Actions Demo
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+      - name: Execute gradle
+        run: ./gradlew assembleDebug testDebugUnitTest
+
