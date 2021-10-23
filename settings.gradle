@@ -1,1 +1,15 @@
-include ':sample', ':permission-bitte'
+plugins {
+    // See https://jmfayard.github.io/refreshVersions
+    id("de.fayard.refreshVersions") version "0.23.0"
+}
+
+refreshVersions {
+    enableBuildSrcLibs()
+    rejectVersionIf {
+        candidate.stabilityLevel != de.fayard.refreshVersions.core.StabilityLevel.Stable
+    }
+}
+
+rootProject.name = "permission-bitte"
+include ':sample'
+include ':permission-bitte'
