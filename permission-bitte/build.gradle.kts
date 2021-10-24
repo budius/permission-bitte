@@ -39,8 +39,11 @@ dependencies {
 
     implementation(AndroidX.core.ktx)
     implementation(AndroidX.appCompat)
+    implementation(AndroidX.fragmentKtx)
+    implementation(AndroidX.lifecycle.viewModelKtx)
 
     testImplementation(Testing.junit4)
+    testImplementation(Libs.truth)
     androidTestImplementation(AndroidX.test.ext.junitKtx)
     androidTestImplementation(AndroidX.test.espresso.core)
 }

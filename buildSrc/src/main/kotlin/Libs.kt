@@ -18,9 +18,15 @@ object Libs {
 
     const val core_ktx: String = "androidx.core:core-ktx:_"
 
+    const val fragment_ktx: String = "androidx.fragment:fragment-ktx:_"
+
+    const val lifecycle_runtime_ktx: String = "androidx.lifecycle:lifecycle-runtime-ktx:_"
+
+    const val lifecycle_viewmodel_ktx: String = "androidx.lifecycle:lifecycle-viewmodel-ktx:_"
+
     const val espresso_core: String = "androidx.test.espresso:espresso-core:_"
 
-    const val androidx_test_ext_junit: String = "androidx.test.ext:junit:_"
+    const val junit_ktx: String = "androidx.test.ext:junit-ktx:_"
 
     const val com_android_tools_build_gradle: String = "com.android.tools.build:gradle:_"
 
@@ -28,12 +34,21 @@ object Libs {
 
     const val material: String = "com.google.android.material:material:_"
 
+    const val truth: String = "com.google.truth:truth:_"
+
     const val de_fayard_buildsrclibs_gradle_plugin: String =
             "de.fayard.buildSrcLibs:de.fayard.buildSrcLibs.gradle.plugin:_"
 
-    const val junit_junit: String = "junit:junit:_"
+    const val junit: String = "junit:junit:_"
 
     const val org_jacoco_ant: String = "org.jacoco:org.jacoco.ant:_"
 
     const val kotlin_gradle_plugin: String = "org.jetbrains.kotlin:kotlin-gradle-plugin:_"
+
+    const val kotlin_stdlib: String = "org.jetbrains.kotlin:kotlin-stdlib:_"
+
+    const val kotlinx_coroutines_android: String =
+            "org.jetbrains.kotlinx:kotlinx-coroutines-android:_"
+
+    const val kotlinx_coroutines_core: String = "org.jetbrains.kotlinx:kotlinx-coroutines-core:_"
 }

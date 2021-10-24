@@ -1,6 +1,7 @@
 package com.budius.permissionbitte
 
 import android.app.Application
+import com.budius.permissionbitte.internal.PermissionBitteImpl
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -28,7 +29,9 @@ interface PermissionBitte {
          * TODO: document
          */
         fun install(app: Application): PermissionBitte {
-            TODO("to be done")
+            val impl = PermissionBitteImpl(app)
+            app.registerActivityLifecycleCallbacks(impl.activityTracker)
+            return impl
         }
     }
 }

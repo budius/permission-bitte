@@ -15,5 +15,5 @@ jobs:
           distribution: 'adopt'
           java-version: '11'
       - name: Execute gradle
-        run: ./gradlew assembleDebug testDebugUnitTest
+        run: ./gradlew ktlintCheck assembleDebug testDebugUnitTest
 

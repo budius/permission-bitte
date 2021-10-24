@@ -39,9 +39,13 @@ dependencies {
     implementation(KotlinX.coroutines.core)
     implementation(KotlinX.coroutines.android)
     implementation(AndroidX.core.ktx)
+    implementation(AndroidX.lifecycle.runtimeKtx)
     implementation(AndroidX.appCompat)
     implementation(Google.android.material)
     implementation(AndroidX.constraintLayout)
+
+    implementation(project(":permission-bitte"))
+
     testImplementation(Testing.junit4)
     androidTestImplementation(AndroidX.test.ext.junitKtx)
     androidTestImplementation(AndroidX.test.espresso.core)

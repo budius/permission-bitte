@@ -10,13 +10,21 @@ buildscript {
     }
 }
 
+plugins {
+    id("org.jlleitschuh.gradle.ktlint") version "10.2.0"
+}
+
 allprojects {
     repositories {
         google()
         mavenCentral()
     }
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
+    ktlint {
+        android.set(true)
+        disabledRules.set(setOf("no-wildcard-imports"))
+    }
 }
-
 tasks.register<Delete>("clean") {
     group = "build"
     delete(rootProject.buildDir)
