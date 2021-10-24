@@ -37,6 +37,7 @@ internal class PermissionViewModel(
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            _instance = null
             return PermissionViewModel(pendingRequest) as T
         }
 
