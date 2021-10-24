@@ -5,7 +5,10 @@ import android.app.Application
 import android.content.pm.PackageManager
 import android.content.pm.PermissionInfo
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import androidx.core.content.pm.PermissionInfoCompat
 import com.budius.permissionbitte.Permission
 import com.budius.permissionbitte.PermissionBitte
 import com.budius.permissionbitte.PermissionState
@@ -62,6 +65,9 @@ internal class PermissionBitteImpl(private val app: Application) :
     }
 
     override fun onActivity(activity: Activity) {
+
+        activity.extractData()
+
         val pm = activity.packageManager
         val info = pm.getPackageInfo(activity.packageName, PackageManager.GET_PERMISSIONS)
 
@@ -93,3 +99,32 @@ private fun PermissionInfo.protectionCompat28(): Int = this.protection
 
 @Suppress("DEPRECATION")
 private fun PermissionInfo.protectionCompatOld(): Int = this.protectionLevel
+
+private fun Activity.extractData() {
+    fun l(m: String) = Log.d("porra", m)
+    val pm = packageManager
+    val info = pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
+
+
+    val names: Array<String> = info.requestedPermissions
+    l("results for: ${names[0]}")
+    l("flags: ${info.requestedPermissionsFlags[0]}")
+
+    l("applicationInfo.flags: ${info.applicationInfo.flags}")
+    l("applicationInfo.permission: ${info.applicationInfo.permission}")
+
+    val checkPerm: Int = pm.checkPermission(names[0], packageName)
+    l("checkPermission = $checkPerm")
+
+    val permInfo = pm.getPermissionInfo(names[0], 0)
+    l("getPermissionInfo.name = ${permInfo.name}")
+    l("getPermissionInfo.flags = ${permInfo.flags}")
+    l("getPermissionInfo.protection = ${permInfo.protection}")
+    l("getPermissionInfo.group = ${permInfo.group}")
+    l("getPermissionInfo.protectionFlags = ${permInfo.protectionFlags}")
+    l("getPermissionInfo.metaData = ${permInfo.metaData}")
+
+    l("compat.getProtection: ${PermissionInfoCompat.getProtection(permInfo)}")
+    l("compat.getProtectionFlags: ${PermissionInfoCompat.getProtectionFlags(permInfo)}")
+
+}
