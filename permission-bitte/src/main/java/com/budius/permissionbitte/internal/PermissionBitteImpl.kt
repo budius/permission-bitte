@@ -1,36 +1,24 @@
 package com.budius.permissionbitte.internal
 
-import android.app.Activity
 import android.app.Application
-import android.content.pm.PackageManager
 import android.content.pm.PermissionInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.budius.permissionbitte.Permission
 import com.budius.permissionbitte.PermissionBitte
 import com.budius.permissionbitte.PermissionState
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
 
-internal class PermissionBitteImpl(private val app: Application) :
-    PermissionBitte,
-    ActivityTracker.Listener {
+internal class PermissionBitteImpl(private val app: Application) : PermissionBitte {
 
     private var isAlive = true
 
-    private val _permissions = MutableSharedFlow<Map<String, PermissionState>>(
-        replay = 1,
-        onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
 
-    internal val activityTracker = ActivityTracker(this)
+    private val permissionHolder = PermissionHolder()
+    private val requestSender = RequestSender(permissionHolder.permissionMap)
 
-    override val permissions: Flow<Set<Permission>> = _permissions.map { map ->
-        map.mapTo(HashSet(), { Permission(it.key, it.value) })
-    }.distinctUntilChanged()
+
+    override val permissions: Flow<Set<Permission>> = permissionHolder.permissionsSet
 
     override suspend fun request(permissions: Set<String>) {
         if (isAlive.not()) {
@@ -61,23 +49,23 @@ internal class PermissionBitteImpl(private val app: Application) :
         app.unregisterActivityLifecycleCallbacks(activityTracker)
     }
 
-    override fun onActivity(activity: Activity) {
-        val pm = activity.packageManager
-        val info = pm.getPackageInfo(activity.packageName, PackageManager.GET_PERMISSIONS)
-
-        val names: Array<String> = info.requestedPermissions
-        val flags: IntArray = info.requestedPermissionsFlags
-        val protection: List<Int> = names.map { pm.getPermissionInfo(it, 0).protectionCompat() }
-        val rationale = names.map { activity.shouldShowRequestPermissionRationale(it) }
-
-        val permissions = ManifestMapper.parsePermissions(names, flags, protection, rationale)
-        _permissions.tryEmit(
-            ManifestMapper.mergePermission(
-                current = _permissions.replayCache.firstOrNull(),
-                new = permissions
-            )
-        )
-    }
+//    override fun onActivity(activity: Activity) {
+//        val pm = activity.packageManager
+//        val info = pm.getPackageInfo(activity.packageName, PackageManager.GET_PERMISSIONS)
+//
+//        val names: Array<String> = info.requestedPermissions
+//        val flags: IntArray = info.requestedPermissionsFlags
+//        val protection: List<Int> = names.map { pm.getPermissionInfo(it, 0).protectionCompat() }
+//        val rationale = names.map { activity.shouldShowRequestPermissionRationale(it) }
+//
+//        val permissions = ManifestMapper.parsePermissions(names, flags, protection, rationale)
+//        _permissions.tryEmit(
+//            ManifestMapper.mergePermission(
+//                current = _permissions.replayCache.firstOrNull(),
+//                new = permissions
+//            )
+//        )
+//    }
 }
 
 private fun PermissionInfo.protectionCompat(): Int {

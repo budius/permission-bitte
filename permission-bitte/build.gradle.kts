@@ -33,14 +33,17 @@ android {
 }
 
 dependencies {
-    implementation(Kotlin.stdlib)
+
     implementation(KotlinX.coroutines.core)
     implementation(KotlinX.coroutines.android)
 
-    implementation(AndroidX.core.ktx)
+    implementation(AndroidX.activity)
+    implementation(AndroidX.activity.ktx)
+
+//    implementation(AndroidX.core.ktx)
     implementation(AndroidX.appCompat)
-    implementation(AndroidX.fragmentKtx)
-    implementation(AndroidX.lifecycle.viewModelKtx)
+    implementation(AndroidX.fragment.ktx)
+//    implementation(AndroidX.lifecycle.viewModelKtx)
 
     testImplementation(Testing.junit4)
     testImplementation(Libs.truth)
